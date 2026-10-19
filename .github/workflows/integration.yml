@@ -6,6 +6,7 @@ on:
 jobs:
   integrate:
     runs-on: ubuntu-latest
+    environment: staging
     permissions:
       contents: read
       pull-requests: write
@@ -40,6 +41,16 @@ jobs:
 
           echo "Dataset extracted to ./data/raw"
           find ./data -maxdepth 2 -type f
+
+      - name: Download model
+        run: |
+          python scripts/download_model.py
+        env:
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          MLFLOW_URI: ${{ vars.MLFLOW_URI }}
+          EXPERIMENT_NAME: ${{ vars.EXPERIMENT_NAME }}
 
       - name: Run tests and save exit code
         id: tests
