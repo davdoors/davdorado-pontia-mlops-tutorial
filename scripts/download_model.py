@@ -1,7 +1,9 @@
 import mlflow
 import os
 MLFLOW_URI = os.getenv("MLFLOW_URI", "http://localhost:5000/")
-EXPERIMENT_NAME = os.getenv("MLFLOW_EXPERIMENT_NAME", "adult-income")
+EXPERIMENT_NAME = os.getenv("EXPERIMENT_NAME") or os.getenv(
+    "MLFLOW_EXPERIMENT_NAME", "adult-income"
+)
 mlflow.set_tracking_uri(MLFLOW_URI)
 
 local_path = mlflow.artifacts.download_artifacts(
