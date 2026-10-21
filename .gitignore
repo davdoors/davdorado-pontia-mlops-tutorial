@@ -5,3 +5,4 @@ training.log
 run_id.txt
 data/
 models/
+.env
